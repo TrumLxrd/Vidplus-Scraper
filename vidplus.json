@@ -1,0 +1,18 @@
+{
+  "sourceName": "VidPlus.to",
+  "iconUrl": "https://vidplus.to/favicon.ico",
+  "author": {
+    "name": "Assistant",
+    "icon": "https://vidplus.to/favicon.ico"
+  },
+  "version": "1.0.0",
+  "language": "English",
+  "streamType": "HLS",
+  "quality": "1080p",
+  "baseUrl": "https://player.vidplus.to/",
+  "searchBaseUrl": "https://api.themoviedb.org/3/search/multi?api_key={d9956abacedb5b43a16cc4864b26d451}&query=%s",
+  "scriptUrl": "https://raw.githubusercontent.com/TrumLxrd/SoraModule/refs/heads/main/vidplus.js",
+  "asyncJS": true,
+  "type": "movies",
+  "softsub": true
+}
