@@ -6,7 +6,7 @@ The VidPlus.to Sora module integrates **The Movie Database (TMDB) API** for sear
 
 ### Installation and Configuration
 
-- **TMDB API Key**: The script requires a TMDB API key, specified in code (default example: `d9956abacedb5b43a16cc4864b26d451`). This should be replaced with your own key from https://www.themoviedb.org/settings/api.
+- **TMDB API Key**: The script requires a TMDB API key. Get your own key from https://www.themoviedb.org/settings/api.
 - **Script Hosting**: Host the JavaScript file (`vidplus.js` or the optimized version) on a web server. Update the `scriptUrl` in your JSON config to point to the hosted location.
 - **JSON Metadata**: Use a JSON descriptor (`vidplus.json`) for platform integration, providing source identity, icons, endpoints, stream type, video quality, and subtitles support.
 
