@@ -20,21 +20,6 @@ The **VidPlus.to Sora module** integrates TMDB (The Movie Database) API 🔎 for
 Designed for JavaScript apps (like Sora modules), it supports both movies and TV shows seamlessly!
 
 ---
-# 🍿 VidPlus.to Module Documentation 🎬
-
----
-
-## 🚀 Overview
-
-The **VidPlus.to Sora module** integrates TMDB (The Movie Database) API 🔎 for discovering movie/TV info and the VidPlus.to streaming platform for fast playback. It exposes handy functions to:
-- Search content 🔍
-- Extract metadata 📝
-- List episodes 📺
-- Resolve streaming URLs 🎥
-
-Designed for JavaScript apps (like Sora modules), it supports both movies and TV shows seamlessly!
-
----
 
 ## ⚙️ Quick Setup
 
