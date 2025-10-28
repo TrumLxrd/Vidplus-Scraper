@@ -1,9 +1,4 @@
-
-// VidPlus.to Sora Module
-// This module integrates TMDB API for content discovery with VidPlus.to for streaming
-// Note: You'll need to get your own TMDB API key from https://www.themoviedb.org/settings/api
-
-const TMDB_API_KEY = "d9956abacedb5b43a16cc4864b26d451"; // Replace with your actual TMDB API key
+const TMDB_API_KEY = ""; // Replace with your actual TMDB API key
 const TMDB_BASE_URL = "https://api.themoviedb.org/3";
 const TMDB_IMAGE_BASE = "https://image.tmdb.org/t/p/w500";
 const VIDPLUS_BASE_URL = "https://player.vidplus.to/embed";
@@ -29,10 +24,10 @@ async function searchResults(keyword) {
                 return {
                     title: title,
                     image: posterPath,
-                    href: `vidplus://${item.media_type}/${item.id}` // Custom href format
+                    href: `vidplus://${item.media_type}/${item.id}` 
                 };
             })
-            .slice(0, 20); // Limit to 20 results
+            .slice(0, 20);
 
         console.log("Transformed results:", transformedResults);
         return JSON.stringify(transformedResults);
@@ -97,21 +92,20 @@ async function extractEpisodes(url) {
         const tmdbId = match[2];
 
         if (mediaType === 'movie') {
-            // For movies, return a single "episode"
+            // For movies return a single "episode"
             return JSON.stringify([{
                 href: `${VIDPLUS_BASE_URL}/movie/${tmdbId}`,
                 number: "Movie"
             }]);
         }
 
-        // For TV shows, get all seasons and episodes
+        // For TV shows get all seasons and episodes
         const showResponse = await fetchv2(`${TMDB_BASE_URL}/tv/${tmdbId}?api_key=${TMDB_API_KEY}`);
         const showData = await showResponse.json();
 
         const episodes = [];
         let episodeCounter = 1;
 
-        // Iterate through each season
         for (let seasonNum = 1; seasonNum <= (showData.number_of_seasons || 1); seasonNum++) {
             try {
                 const seasonResponse = await fetchv2(`${TMDB_BASE_URL}/tv/${tmdbId}/season/${seasonNum}?api_key=${TMDB_API_KEY}`);
@@ -127,8 +121,7 @@ async function extractEpisodes(url) {
                 }
             } catch (seasonError) {
                 console.log(`Error fetching season ${seasonNum}:`, seasonError);
-                // If we can't get specific episodes, create generic ones
-                for (let ep = 1; ep <= 20; ep++) { // Assume max 20 episodes per season
+                for (let ep = 1; ep <= 20; ep++) { 
                     episodes.push({
                         href: `${VIDPLUS_BASE_URL}/tv/${tmdbId}/${seasonNum}/${ep}`,
                         number: `S${seasonNum}E${ep}`
@@ -148,11 +141,8 @@ async function extractEpisodes(url) {
 
 async function extractStreamUrl(url) {
     try {
-        // The URL should already be a VidPlus.to embed URL at this point
         console.log("Stream URL requested:", url);
 
-        // VidPlus.to URLs are direct embed URLs, so we just return them
-        // The Sora app will handle the embedding
         return url;
 
     } catch (error) {
@@ -160,10 +150,3 @@ async function extractStreamUrl(url) {
         return null;
     }
 }
-
-// Note for implementation:
-// 1. Replace YOUR_TMDB_API_KEY with an actual TMDB API key
-// 2. Host this JavaScript file on a publicly accessible URL
-// 3. Update the scriptUrl in the JSON configuration to point to your hosted file
-// 4. The module uses TMDB for content discovery and VidPlus.to for streaming
-// 5. VidPlus.to requires TMDB IDs for movies and TV shows, which this module provides
