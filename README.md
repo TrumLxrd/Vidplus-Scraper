@@ -1,75 +1,95 @@
-### Overview
-
-The VidPlus.to Sora module integrates **The Movie Database (TMDB) API** for searching and metadata, and the VidPlus.to streaming platform for playback of movies/TV shows. The code exposes functions to search for content, extract metadata and episode lists, and resolve stream URLs. It is designed for JavaScript-compatible environments, following Sora module conventions and supporting both movies and TV series.
+# 🍿 VidPlus.to Module Documentation 🎬
 
 ---
 
-### Installation and Configuration
+## 🚀 Overview
 
-- **TMDB API Key**: The script requires a TMDB API key. Get your own key from https://www.themoviedb.org/settings/api.
-- **Script Hosting**: Host the JavaScript file (`vidplus.js` or the optimized version) on a web server. Update the `scriptUrl` in your JSON config to point to the hosted location.
-- **JSON Metadata**: Use a JSON descriptor (`vidplus.json`) for platform integration, providing source identity, icons, endpoints, stream type, video quality, and subtitles support.
+The **VidPlus.to Sora module** integrates TMDB (The Movie Database) API 🔎 for discovering movie/TV info and the VidPlus.to streaming platform for fast playback. It exposes handy functions to:
+- Search content 🔍
+- Extract metadata 📝
+- List episodes 📺
+- Resolve streaming URLs 🎥
 
----
-
-### Main Components
-
-#### External Dependencies
-
-- **TMDB API**: For search, details lookup, and episode data.
-- **VidPlus.to**: For embedding stream URLs using TMDB IDs.
-- **Optional Global Extractor**: The optimized version can load a global extractor module for advanced stream URL resolution (e.g., transforming embed pages to direct `.m3u8`/`.mp4` links).
-
-#### Core Constants
-
-- `TMDBAPIKEY`: The Movie Database API key.
-- `TMDBBASEURL`: Base TMDB API endpoint (`https://api.themoviedb.org/3`).
-- `TMDBIMAGEBASE`: Image CDN prefix (`https://image.tmdb.org/t/p/w500`).
-- `VIDPLUSBASEURL`: VidPlus embed root (`https://player.vidplus.to/embed`).
-
-#### Main Functions
-
-| Function             | Description                                                                                                               |
-|----------------------|---------------------------------------------------------------------------------------------------------------------------|
-| `searchResults()`    | Searches TMDB for movies/TV with a keyword; returns up to 15–20 results, including title, poster, and VidPlus href.      |
-| `extractDetails()`   | Gets full metadata (overview, release, runtime/season info) from TMDB based on a VidPlus-formatted URL.                   |
-| `extractEpisodes()`  | For movies: returns a single video entry. For TV: Lists all seasons & episodes, fetching details from TMDB and constructing VidPlus embed URLs. |
-| `extractStreamUrl()` | Validates and possibly re-formats VidPlus embed URLs for direct playback. If a global extractor is enabled, attempts advanced stream extraction. |
+Designed for JavaScript apps (like Sora modules), it supports both movies and TV shows seamlessly!
 
 ---
 
-### Usage Flow
+## ⚙️ Quick Setup
 
-1. **Search**: User enters a keyword → `searchResults` queries TMDB → returns formatted list with VidPlus link per result.
-2. **Show Details**: Selecting a result triggers `extractDetails` for metadata (title, description, runtime, release year, etc.).
-3. **Episodes**: For TV shows, `extractEpisodes` lists all episodes with dynamically composed VidPlus embed URLs; for movies, a single entry is returned.
-4. **Streaming**: Sora (or compatible player) uses `extractStreamUrl` to resolve the direct streaming URL or handle embedding.
-
----
-
-### Notable Design Points
-
-- **Fallbacks**: Optimized code tries different approaches (optional extractor module, local/package loading) and degrades gracefully if TMDB or any season/episode fetch fails.
-- **Error Handling**: Most async actions are wrapped in try/catch blocks, returning structured error results if requests fail.
-- **Performance Limits**: TV show episode extraction is capped (e.g., up to 10 seasons, 20 episodes if fetch fails).
-- **Extensibility**: Core logic is modular and can be adapted for direct use or by other "Sora" compatible extractors.
+- **TMDB API Key**: Replace the built-in key with your own from [TMDB Settings](https://www.themoviedb.org/settings/api) 🔑
+- **Script Hosting**: Upload your script (`vidplus.js` or optimized) to a web server/cloud ☁️, and set the `scriptUrl` in your config JSON.
+- **JSON Descriptor**: Use `vidplus.json` to declare name, icons, API URLs, HLS/1080p support, subtitles, and async JS usage:
 
 ---
 
-### Configuration Reference (`vidplus.json`)
+## 🔗 External APIs & Files
 
-| Field            | Value (Example)                                 | Description                                                  |
-|------------------|-------------------------------------------------|--------------------------------------------------------------|
-| `sourceName`     | VidPlus.to                                      | Display name of the source                                   |
-| `iconUrl`        | https://vidplus.to/favicon.ico                  | Small logo/icon                                              |
-| `author`         | Assistant                                       | Module creator                                               |
-| `version`        | 1.0.0                                           | Module version                                               |
-| `language`       | English                                         | Default language                                             |
-| `streamType`     | HLS                                             | Video stream protocol                                        |
-| `quality`        | 1080p                                           | Default video quality                                        |
-| `baseUrl`        | https://player.vidplus.to                       | Base embedding endpoint                                      |
-| `searchBaseUrl`  | https://api.themoviedb.org/...                  | Search API endpoint with TMDB key                            |
-| `scriptUrl`      | https://.../vidplus.js                          | Location of the JavaScript extractor module                  |
-| `asyncJS`        | true                                            | JS loads asynchronously                                      |
-| `type`           | movies                                          | Supported media types                                        |
-| `softsub`        | true                                            | Supports soft subtitles                                      |
+- **TMDB API**: For movie/series info, images, and episode data 🎦
+- **VidPlus.to**: For streaming embeds using TMDB IDs 🍿
+- **Global Extractor (optional)**: Enables advanced `.m3u8`/`.mp4` extraction (optimized only) 🧰
+
+---
+
+## 🧑‍💻 Core Constants
+
+| Constant          | Value/Use Example                   |
+|-------------------|-------------------------------------|
+| `TMDBAPIKEY`      | e.g. `d9956abacedb5b43a16cc4864b26d451`  |
+| `TMDBBASEURL`     | `https://api.themoviedb.org/3`      |
+| `TMDBIMAGEBASE`   | `https://image.tmdb.org/t/p/w500`   |
+| `VIDPLUSBASEURL`  | `https://player.vidplus.to/embed`   |
+
+---
+
+## 🏗️ Main Functions
+
+| Function                | Purpose/Description                                                                                                                                   |
+|-------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `searchResults()`       | TMDB search by keyword – gets up to 15–20 results (title, image, VidPlus URL) 🔍                                                                      |
+| `extractDetails()`      | Loads full metadata like synopsis, release date, runtime, or season info 📝                                                                            |
+| `extractEpisodes()`     | Lists all episodes for TV, or a single entry for movies; builds VidPlus embed URLs for each episode 🎞                                               |
+| `extractStreamUrl()`    | Validates and (if needed) rewrites VidPlus embed links for playback; uses extractor lib for raw streams when available ⚡                             |
+
+---
+
+## 🛣️ Usage Flow
+
+1. **Search**: User provides keyword → TMDB search → gets VidPlus links 🚦
+2. **Details**: Selecting a title loads summary, year, poster, runtime, etc. 📖
+3. **Episodes**: For TV, all seasons & episodes are listed; for movies, just one video 🎬
+4. **Stream!**: Final streaming URL is passed to the Sora app or player 🔗
+
+---
+
+## 🏆 Key Features & Design
+
+- **Graceful Fallbacks**: Tries local/package extractors, auto-degrades if external lookup (TMDB/season) fails 🤞
+- **Robust Error Handling**: All network actions use try/catch; friendly fallback messages returned if needed 🛡️
+- **Performance Guardrails**: TV extraction capped at 10 seasons/20 episodes if API fails to limit overload 🚦
+- **Modular & Hackable**: Functions are pluggable for Sora modules or custom extractors 🧩
+
+---
+
+## 📝 Example JSON Config (`vidplus.json`)
+
+| Field           | Example Value                        | Description                        |
+|-----------------|--------------------------------------|------------------------------------|
+| `sourceName`    | VidPlus.to                           | Display name                       |
+| `iconUrl`       | https://vidplus.to/favicon.ico       | Logo/icon                          |
+| `author`        | Assistant                            | Module creator                     |
+| `version`       | 1.0.0                                | Module version                     |
+| `language`      | English                              | Default language                   |
+| `streamType`    | HLS                                  | Video protocol                     |
+| `quality`       | 1080p                                | Max default quality                |
+| `baseUrl`       | https://player.vidplus.to            | Embed endpoint                     |
+| `searchBaseUrl` | https://api.themoviedb.org/...       | Search API with TMDB key           |
+| `scriptUrl`     | https://.../vidplus.js               | Loader for the JS extractor        |
+| `asyncJS`       | true                                 | JS loads async                     |
+| `type`          | movies                               | Supported media types              |
+| `softsub`       | true                                 | Soft subtitle support              |
+
+---
+
+## 🌟 Summary
+
+This enhanced module connects TMDB discovery and streaming via VidPlus.to (using Sora integration), with snappy search, episode metadata, error resilience, and streaming extraction. Adapt, extend, and enjoy seamless streaming! 🎥🍿✨
