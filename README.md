@@ -1,7 +1,5 @@
 # 🍿 VidPlus.to Module Documentation 🎬
 
-## 📊 Badges
-
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Version](https://img.shields.io/badge/version-1.0.0-blue)
 ![Language](https://img.shields.io/badge/language-JavaScript-yellowgreen)
